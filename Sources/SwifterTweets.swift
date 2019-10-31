@@ -221,9 +221,9 @@ public extension Swifter {
 			return
 		}
 		
-		self.prepareUpload(data: data, success: { json, response in
+        self.prepareUpload(data: data, mimeType: .gif, success: { json, response in
 			if let media_id = json["media_id_string"].string {
-				self.uploadGIF(media_id, data: data, name: attachmentUrl.lastPathComponent, success: { json, response in
+				self.uploadMedia(media_id, data: data, mimeType: .gif, name: attachmentUrl.lastPathComponent, success: { json, response in
 					self.finalizeUpload(mediaId: media_id, success: { json, resoponse in
 						self.postTweet(status: text, mediaIDs: [media_id], success: success, failure: failure)
 					}, failure: failure)
@@ -235,6 +235,50 @@ public extension Swifter {
 			}
 		}, failure: failure)
 	}
+    
+    func postTweetWithMP4(attachmentUrl: URL, text: String, success: SuccessHandler? = nil, failure: FailureHandler? = nil) {
+        guard let data = try? Data(contentsOf: attachmentUrl) else {
+            let error = SwifterError(message: "Found invalid MP4 Data", kind: .invalidGifData)
+            failure?(error)
+            return
+        }
+        
+        self.prepareUpload(data: data, mimeType: .mp4, success: { json, response in
+            if let media_id = json["media_id_string"].string {
+                self.uploadMedia(media_id, data: data, mimeType: .mp4, name: attachmentUrl.lastPathComponent, success: { json, response in
+                    self.finalizeUpload(mediaId: media_id, success: { json, resoponse in
+                        self.postTweet(status: text, mediaIDs: [media_id], success: success, failure: failure)
+                    }, failure: failure)
+                }, failure: failure)
+            }
+            else {
+                let error = SwifterError(message: "Bad Response for MP4 Upload", kind: .invalidGifResponse)
+                failure?(error)
+            }
+        }, failure: failure)
+    }
+    
+    func postTweetWithMov(attachmentUrl: URL, text: String, success: SuccessHandler? = nil, failure: FailureHandler? = nil) {
+        guard let data = try? Data(contentsOf: attachmentUrl) else {
+            let error = SwifterError(message: "Found invalid Mov Data", kind: .invalidGifData)
+            failure?(error)
+            return
+        }
+        
+        self.prepareUpload(data: data, mimeType: .mov, success: { json, response in
+            if let media_id = json["media_id_string"].string {
+                self.uploadMedia(media_id, data: data, mimeType: .mov, name: attachmentUrl.lastPathComponent, success: { json, response in
+                    self.finalizeUpload(mediaId: media_id, success: { json, resoponse in
+                        self.postTweet(status: text, mediaIDs: [media_id], success: success, failure: failure)
+                    }, failure: failure)
+                }, failure: failure)
+            }
+            else {
+                let error = SwifterError(message: "Bad Response for Mov Upload", kind: .invalidGifResponse)
+                failure?(error)
+            }
+        }, failure: failure)
+    }
 
     /**
     POST	media/upload
