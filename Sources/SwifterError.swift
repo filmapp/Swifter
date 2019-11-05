@@ -17,8 +17,8 @@ public struct SwifterError: LocalizedError {
         case badOAuthResponse
         case urlResponseError(status: Int, headers: [AnyHashable: Any], errorCode: Int)
         case jsonParseError
-        case invalidGifData
-        case invalidGifResponse
+        case invalidMediaData
+        case invalidMediaResponse
         case noTwitterApp
         case cancelled
         case invalidClient
@@ -37,10 +37,10 @@ public struct SwifterError: LocalizedError {
                 return "urlResponseError(status: \(code), headers: \(headers), errorCode: \(errorCode)"
             case .jsonParseError:
                 return "jsonParseError"
-            case .invalidGifData:
-                return "invalidGifData"
-            case .invalidGifResponse:
-                return "invalidGifResponse"
+            case .invalidMediaData:
+                return "invalidMediaData"
+            case .invalidMediaResponse:
+                return "invalidMediaResponse"
             case .noTwitterApp:
                 return "noTwitterApp"
             case .cancelled:
