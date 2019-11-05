@@ -37,6 +37,12 @@ public extension Swifter {
         self.postJSON(path: path, baseURL: .upload, parameters: parameters, success: success, failure: failure)
     }
     
+    internal func uploadStatus(mediaId: String, success: JSONSuccessHandler? = nil, failure: FailureHandler? = nil) {
+        let path = "media/upload.json"
+        let parameters = ["command": "STATUS", "media_id" : mediaId]
+        self.getJSON(path: path, baseURL: .upload, parameters: parameters, success: success, failure: failure)
+    }
+    
     internal func uploadMedia(_ mediaId: String, data: Data,  mimeType: MimeType, name: String? = nil, success: JSONSuccessHandler? = nil, failure: FailureHandler? = nil) {
         let fileExtension: String
         switch mimeType {
