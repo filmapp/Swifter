@@ -225,7 +225,6 @@ public extension Swifter {
                             
                             if let state = info["state"]?.string,
                                 state == "succeeded" {
-                                print("succeeded: \(info)")
                                 completed()
                                 return
                             }
@@ -236,7 +235,6 @@ public extension Swifter {
                                 return
                             }
                             
-                            print("delayTime: \(delayTime)")
                             DispatchQueue.global().asyncAfter(deadline: .now() + delayTime) {
                                 self?.checkUploadComplete(mediaId: mediaId, completed: completed, failure: failure)
                             }
